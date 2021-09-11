@@ -1,30 +1,43 @@
-import { useState } from 'react';
+import { useState, useReducer } from 'react';
 import './App.css';
 
+const formReducer = (state, event) => {
+  return {
+    ...state,
+    [event.target.name]: event.target.value,
+  };
+};
+
 function App() {
+  const [formData, setFormData] = useReducer(formReducer, {});
   const [submitting, setSubmitting] = useState(false);
 
   const handleSubmit = (event) => {
     event.preventDefault();
     setSubmitting(true);
     setTimeout(() => {
-      alert('form submitted');
       setSubmitting(false);
     }, 2000);
   };
 
   return (
     <div className="App">
-      <h1>Simple form</h1>
+      <h1>todo's</h1>
       <form onSubmit={handleSubmit}>
         <fieldset>
           <label>
-            <p>Name</p>
-            <input name="name" />
+            <p>todo</p>
+            <input
+              name="name"
+              onChange={(e) => {
+                setFormData(e);
+                console.log(formData);
+              }}
+            />
           </label>
         </fieldset>
         <button disabled={submitting} type="submit">
-          Submit
+          submit
         </button>
       </form>
     </div>
