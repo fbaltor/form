@@ -2,18 +2,16 @@ import { useState, useReducer } from 'react';
 import './App.css';
 
 const formReducer = (state, event) => {
-  return {
-    ...state,
-    [event.target.name]: event.target.value,
-  };
+  return [...state, event.target['todoList'].value];
 };
 
 function App() {
-  const [formData, setFormData] = useReducer(formReducer, {});
+  const [formData, setFormData] = useReducer(formReducer, []);
   const [submitting, setSubmitting] = useState(false);
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    setFormData(event);
     setSubmitting(true);
     setTimeout(() => {
       setSubmitting(false);
@@ -23,27 +21,18 @@ function App() {
   return (
     <div className="App">
       <h1>todo's</h1>
-      {submitting && (
-        <div>
-          You are submitting the following:
-          <ul>
-            {Object.entries(formData).map(([name, value]) => (
-              <li key={name}>{value.toString()}</li>
-            ))}
-          </ul>
-        </div>
+      {formData && (
+        <ul>
+          {formData.map((element, index) => (
+            <li key={index}>{element.toString()}</li>
+          ))}
+        </ul>
       )}
       <form onSubmit={handleSubmit}>
         <fieldset>
           <label>
             <p>todo</p>
-            <input
-              name="name"
-              onChange={(e) => {
-                setFormData(e);
-                console.log(formData);
-              }}
-            />
+            <input name="todoList" />
           </label>
         </fieldset>
         <button disabled={submitting} type="submit">
