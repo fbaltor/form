@@ -10,15 +10,15 @@ function App() {
 
     setSubmitting(true);
 
-    const entry = event.target[0].value;
-    const data = [...formData, entry];
+    const input = event.target[0];
+    const data = [...formData, input.value];
     setFormData(data);
 
     setTimeout(() => {
       setSubmitting(false);
     }, 2000);
 
-    event.target[0].value = '';
+    input.value = '';
   };
 
   return (
@@ -26,7 +26,6 @@ function App() {
       <h1>todo's</h1>
       {!!formData.length && (
         <div>
-          <p>list</p>
           <ul>
             {formData.map((element, index) => (
               <li key={index}>{element}</li>
